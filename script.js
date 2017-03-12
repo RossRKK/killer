@@ -1,6 +1,8 @@
 var through = new Array();
 var current = new Array();
+var losers = new Array();
 var player;
+var winner = false;
 var defaultLives = 3;
 
 $(document).ready(function() {
@@ -23,8 +25,13 @@ function reload() {
 		$("#players").append("<div class=\"player\">" + player + "</div>");
 	});
 
-	$("#player").empty();
-	$("#player").append(player);
+	if (!winner) {
+		$("#player").empty();
+		$("#player").append(player);
+	} else {
+		$("#player").empty();
+		$("#player").append("The winner is: " + winner);
+	}
 }
 
 //Add a player to the game
@@ -52,41 +59,58 @@ function removeFromCurrent(player) {
 function redraw() {
 	current = through;
 	through = new Array();
+	losers = new Array();
 }
 
 //Draw a new player
 function draw() {
-	if (current.length > 0) {
-		player = current[Math.floor(Math.random()*current.length)];
-	} else if (through.length > 0) {
-		redraw();
-		draw();
+	winner = datermineWinner();
+
+	if (!winner) {
+		if (current.length > 0) {
+			player = current[Math.floor(Math.random()*current.length)];
+		} else if (through.length > 0) {
+			redraw();
+			draw();
+		} else {
+			//No one is through
+			current = losers;
+			losers = new Array();
+			draw();
+		}
 	}
 	reload();
 }
 
 //The player missed
 function miss() {
-	removeFromCurrent(player);
-	draw();
+	if (!winner) {
+		removeFromCurrent(player);
+		losers.push(player);
+		draw();
+	}
 }
 
 //The player potted
 function pot() {
-	removeFromCurrent(player);
-	through.push(player);
-	draw();
+	if (!winner) {
+		removeFromCurrent(player);
+		through.push(player);
+		draw();
+	}
 }
 
 
 //Add Lives
 function addLives() {
-	var lives = parseInt($("#lives").val())
-	for (var i = 0; i < lives; i++) {
-		through.push(player);
+	if (!winner) {
+		var lives = parseInt($("#lives").val())
+		for (var i = 0; i < lives; i++) {
+			through.push(player);
+		}
+		pot();
+		reload();
 	}
-	pot();
-	reload();
 }
 
 //Start the game
@@ -94,4 +118,33 @@ function start() {
 	$("#start").hide();
 	$("#curDraw").show();
 	draw();
+}
+
+//Determine if there is a winner
+function datermineWinner() {
+	var winner = null;
+
+	through.forEach(function(player) {
+		if (winner == null) {
+			winner = player;
+		} else if (winner != player) {
+			winner = false;
+			return winner;
+		}
+	});
+
+	var singlePlayer = true;
+	var previousPlayer = null;
+	current.forEach(function(player) {
+		if (previousPlayer != winner) {
+			singlePlayer = false;
+		}
+		previousPlayer = player;
+	});
+
+	if (winner && singlePlayer) {
+		return winner;
+	} else {
+		return false;
+	}
 }

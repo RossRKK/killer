@@ -1,9 +1,13 @@
 div {
-	padding: 5px;
+	padding: 1rem;
 }
 
 button {
-	margin-left: 5px;
+	margin-left: 0.5rem;
+}
+
+.curDraw {
+	padding: 0rem;
 }
 
 #player {
@@ -16,4 +20,5 @@ button {
 
 body {
 	font-family: sans-serif;
+	width: 100%;
 }
