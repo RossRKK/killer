@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<title>Killer</title>
+		<!--Load the scripts and style sheet-->
+		<script type = "text/Javascript" src = "http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script type = "text/Javascript" src = "script.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<h1>Killer</h1>
+		<div id="curDraw">
+			<div id="player"></div>
+			<button onclick="pot()">Pot</button>
+			<button onclick="miss()">Miss</button>
+			<div><input id="lives" value="1"/><button onclick="addLives()">Add Lives</button></div>
+		</div>
+		<button id="start" onclick="start()">Start</button>
+		<h2>Add Player:</h2>
+		<input id="add"/><button onclick="addPlayer()">Add</button>
+		<div id="players"></div>
+	</body>
+</html>
