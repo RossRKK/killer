@@ -18,20 +18,21 @@ $(document).ready(function() {
 function reload() {
 	$("#players").empty();
 
-	$("#players").append("<h3>To Be Drawn</h3>")
+	$("#players").append("<h3>To Be Drawn</h3><table>")
 	current.sort();
 	for (var i = 0; i < current.length; i++) {
-		$("#players").append("<div class=\"player\">" + current[i] + "<button class=\"putThrough\" id=\"" + i + "\">Put Through</button><button class=\"currentCross\" id=\"" + i + "\">X</button></div>");
+		$("#players").append("<tr><th><div class=\"player\">" + current[i] + "</th><th><button class=\"putThrough\" id=\"" + i + "\">Put Through</button><button class=\"currentCross\" id=\"" + i + "\">X</button></div></th></tr>");
 	}
 
-	$("#players").append("<h3>Through</h3>")
+	$("#players").append("</table><h3>Through</h3><table>")
 	through.sort();
 
 
 	for (var i = 0; i < through.length; i++) {
-		$("#players").append("<div class=\"player\">" + through[i] + "<button class=\"demote\" id=\"" + i + "\">Demote</button><button class=\"throughCross\" id=\"" + i + "\">X</button></div>");
+		$("#players").append("<tr><th><div class=\"player\">" + through[i] + "</th><th><button class=\"demote\" id=\"" + i + "\">Demote</button><button class=\"throughCross\" id=\"" + i + "\">X</button></div></th></tr>");
 	}
 
+	$("#players").append("</table>")
 	if (!winner) {
 		$("#player").empty();
 		$("#player").append(player);
