@@ -57,6 +57,7 @@ function removeFromCurrent(player) {
 
 //Redraw the cards
 function redraw() {
+	alert("Re-drawing");
 	current = through;
 	through = new Array();
 	losers = new Array();
@@ -113,10 +114,15 @@ function addLives() {
 	}
 }
 
+function replace() {
+	draw();
+}
+
 //Start the game
 function start() {
 	$("#start").hide();
 	$("#curDraw").show();
+	defaultLives = 1;
 	draw();
 }
 
