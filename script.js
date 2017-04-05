@@ -4,9 +4,14 @@ var losers = new Array();
 var player;
 var winner = false;
 var defaultLives = 3;
+var started = false;
 
 $(document).ready(function() {
 	$("#curDraw").hide();
+	$("#addPlayer").on("submit",function(e) {
+    e.preventDefault(); // cancel the actual submit
+		addPlayer();
+  });
 });
 
 //Re-render the page
@@ -15,15 +20,17 @@ function reload() {
 
 	$("#players").append("<h3>To Be Drawn</h3>")
 	current.sort();
-	current.forEach(function(player) {
-		$("#players").append("<div class=\"player\">" + player + "</div>");
-	});
+	for (var i = 0; i < current.length; i++) {
+		$("#players").append("<div class=\"player\">" + current[i] + "<button class=\"putThrough\" id=\"" + i + "\">Put Through</button><button class=\"currentCross\" id=\"" + i + "\">X</button></div>");
+	}
 
 	$("#players").append("<h3>Through</h3>")
 	through.sort();
-	through.forEach(function(player) {
-		$("#players").append("<div class=\"player\">" + player + "</div>");
-	});
+
+
+	for (var i = 0; i < through.length; i++) {
+		$("#players").append("<div class=\"player\">" + through[i] + "<button class=\"demote\" id=\"" + i + "\">Demote</button><button class=\"throughCross\" id=\"" + i + "\">X</button></div>");
+	}
 
 	if (!winner) {
 		$("#player").empty();
@@ -32,6 +39,28 @@ function reload() {
 		$("#player").empty();
 		$("#player").append("The winner is: " + winner);
 	}
+
+	$(".throughCross").click(function (event) {
+		through.splice(event.target.id, 1);
+		reload();
+	});
+
+	$(".currentCross").click(function (event) {
+		current.splice(event.target.id, 1);
+		reload();
+	});
+
+	$(".putThrough").click(function (event) {
+		through.push(current[event.target.id])
+		current.splice(event.target.id, 1);
+		reload();
+	});
+
+	$(".demote").click(function (event) {
+		current.push(through[event.target.id])
+		through.splice(event.target.id, 1);
+		reload();
+	});
 }
 
 //Add a player to the game
@@ -39,7 +68,11 @@ function addPlayer() {
 	var p = $("#add").val();
 	//add the player to the array
 	for (var i = 0; i < defaultLives; i++) {
-		current.push(p);
+		if (started) {
+			through.push(p);
+		} else {
+			current.push(p);
+		}
 	}
 	//clear the text field
 	$("#add").val("");
@@ -123,6 +156,7 @@ function start() {
 	$("#start").hide();
 	$("#curDraw").show();
 	defaultLives = 1;
+	started = true;
 	draw();
 }
 
