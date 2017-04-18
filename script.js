@@ -4,7 +4,7 @@ var losers = new Array();
 var player;
 var winner = false;
 var defaultLives = 3;
-var started = false;
+var drawCount = 0;
 
 $(document).ready(function() {
 	$("#curDraw").hide();
@@ -18,27 +18,33 @@ $(document).ready(function() {
 function reload() {
 	$("#players").empty();
 
-	$("#players").append("<h3>To Be Drawn</h3><table>")
+	$("#players").append("<h3>To Be Drawn: " + current.length + "</h3><table>")
 	current.sort();
 	for (var i = 0; i < current.length; i++) {
-		$("#players").append("<tr><th><div class=\"player\">" + current[i] + "</th><th><button class=\"putThrough\" id=\"" + i + "\">Put Through</button><button class=\"currentCross\" id=\"" + i + "\">X</button></div></th></tr>");
+		$("#players").append("<tr><td><div class=\"player\">" + current[i] + "</td><td><button class=\"putThrough\" id=\"" + i + "\">Put Through</button><button class=\"currentCross\" id=\"" + i + "\">X</button></div></td></tr>");
 	}
 
-	$("#players").append("</table><h3>Through</h3><table>")
+	$("#players").append("</table><h3>Through: " + through.length + "</h3><table>")
 	through.sort();
 
 
 	for (var i = 0; i < through.length; i++) {
-		$("#players").append("<tr><th><div class=\"player\">" + through[i] + "</th><th><button class=\"demote\" id=\"" + i + "\">Demote</button><button class=\"throughCross\" id=\"" + i + "\">X</button></div></th></tr>");
+		$("#players").append("<tr><td><div class=\"player\">" + through[i] + "</td><td><button class=\"demote\" id=\"" + i + "\">Demote</button><button class=\"throughCross\" id=\"" + i + "\">X</button></div></td></tr>");
 	}
 
-	$("#players").append("</table>")
+	$("#players").append("</table>");
+
+	$("#player").fadeOut();
+
 	if (!winner) {
 		$("#player").empty();
 		$("#player").append(player);
 	} else {
 		$("#player").empty();
 		$("#player").append("The winner is: " + winner);
+	}
+	if (drawCount > 0) {
+		$("#player").fadeIn();
 	}
 
 	$(".throughCross").click(function (event) {
@@ -62,6 +68,8 @@ function reload() {
 		through.splice(event.target.id, 1);
 		reload();
 	});
+
+	drawCount++;
 }
 
 //Add a player to the game
@@ -69,7 +77,7 @@ function addPlayer() {
 	var p = $("#add").val();
 	//add the player to the array
 	for (var i = 0; i < defaultLives; i++) {
-		if (started) {
+		if (drawCount > 0) {
 			through.push(p);
 		} else {
 			current.push(p);
@@ -99,7 +107,7 @@ function redraw() {
 
 //Draw a new player
 function draw() {
-	winner = datermineWinner();
+	winner = determineWinner();
 
 	if (!winner) {
 		if (current.length > 0) {
@@ -154,15 +162,15 @@ function replace() {
 
 //Start the game
 function start() {
-	$("#start").hide();
-	$("#curDraw").show();
+	$("#start").fadeOut();
+	$("#curDraw").fadeIn();
 	defaultLives = 1;
 	started = true;
 	draw();
 }
 
 //Determine if there is a winner
-function datermineWinner() {
+function determineWinner() {
 	var winner = null;
 
 	through.forEach(function(player) {
