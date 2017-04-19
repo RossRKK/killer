@@ -6,12 +6,30 @@ var winner = false;
 var defaultLives = 3;
 var drawCount = 0;
 
+var rulesOpen = false;
+
 $(document).ready(function() {
 	$("#curDraw").hide();
 	$("#addPlayer").on("submit",function(e) {
     e.preventDefault(); // cancel the actual submit
 		addPlayer();
   });
+
+	$("#rules").hide();
+
+	$("#rulesTitle").click(function(e) {
+    e.preventDefault();
+		$("#rules").toggle();
+		if (rulesOpen) {
+			$("#rulesTitle").empty();
+			$("#rulesTitle").append("(expand)");
+			rulesOpen = false;
+		} else {
+			$("#rulesTitle").empty();
+			$("#rulesTitle").append("(collapse)");
+			rulesOpen = true;
+		}
+	});
 });
 
 //Re-render the page
@@ -76,12 +94,8 @@ function reload() {
 function addPlayer() {
 	var p = $("#add").val();
 	//add the player to the array
-	for (var i = 0; i < defaultLives; i++) {
-		if (drawCount > 0) {
-			through.push(p);
-		} else {
+	for (var i = 0; i < $("#noLives").val(); i++) {
 			current.push(p);
-		}
 	}
 	//clear the text field
 	$("#add").val("");

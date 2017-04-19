@@ -13,43 +13,43 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-		<link rel="stylesheet" type="text/css" href="style.css">
-
-		<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-		<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-		<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-		<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-		<link rel="manifest" href="/manifest.json">
-		<meta name="msapplication-TileColor" content="#ffffff">
-		<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-		<meta name="theme-color" content="#ffffff">
-
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	</head>
 	<body>
 	<div class="container">
 		<h1>Killer</h1>
+		<p><h2>Rules</h2><span id="rulesTitle">(expand)</span></p>
+		<div class="container" id="rules">
+			<p>In killer each player is given a certain number of lives (normally 3).</p>
+			<p>Enter the name of each player in the "Add Player" section. Once you have entered the name of each player press start.</p>
+			<p>Every turn a player is randomly picked from the "To Be Drawn" list, this player must then take a shot.</p>
+			<p>If the player is unavailable you can press "Replace" to select another player.</p>
+			<p>The player must now attempt to pot a ball.
+				<li>If they pot press the "Pot" button, this puts their life through to the next round.</li>
+				<li>If they miss press the "Miss" button, this removes their life.</li>
+				<li>If they gain lives enter the number they gained and press "Add Lives". A player gains a life for potting the black and an extra life for every ball they pot after the first, however a fowl subtracts one life.</li>
+			</p>
+			<p>If you make a mistake you can correct it by using the "Promote", "Demote" and "X" buttons.
+				<li>"Promote" moves that life from the "To Be Drawn" section to the "Through" section.</li>
+				<li>"Demote" moves that life from the "Through" section to the "To Be Drawn" section</li>
+				<li>"X" removes that life from the game,</li>
+				You can also add lives back in using the "Add Player" section as before.
+			</p>
+			<p>The winner is the last player standing</p>
+		</div>
+
 		<div id="curDraw" class="container">
 			<div id="player"></div>
 			<button onclick="pot()">Pot</button>
 			<button onclick="miss()">Miss</button>
 			<button onclick="replace()">Replace</button>
-			<div><input id="lives" value="1"/><button onclick="addLives()">Add Lives</button></div>
+			<div><input id="lives" type="number" value="1"/><button onclick="addLives()">Add Lives</button></div>
 		</div>
 
 		<div  class="container">
 			<button id="start" onclick="start()">Start</button>
-			<h2>Add Player:</h2>
-			<form id="addPlayer"><input id="add"/><button type = "submit" >Add</button></form>
+			<h3>Add Player:</h3>
+			<form id="addPlayer">No. Lives: <input type="number" id="noLives" value = "3"></input> Name: <input id="add"/><button type = "submit" >Add</button></form>
 		</div>
 
 		<div id="players" class="container"></div>
