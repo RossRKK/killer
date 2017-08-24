@@ -39,7 +39,7 @@ function reload() {
 	$("#players").append("<h3>To Be Drawn: " + current.length + "</h3><table>")
 	current.sort();
 	for (var i = 0; i < current.length; i++) {
-		$("#players").append("<tr><td><div class=\"player\">" + current[i] + "</td><td><button class=\"putThrough\" id=\"" + i + "\">Put Through</button><button class=\"currentCross\" id=\"" + i + "\">X</button></div></td></tr>");
+		$("#players").append("<tr><td><div class=\"player\">" + current[i] + "</td><td><button class=\"putThrough btn btn-default\" id=\"" + i + "\">Put Through</button><button class=\"currentCross btn btn-default\" id=\"" + i + "\">X</button></div></td></tr>");
 	}
 
 	$("#players").append("</table><h3>Through: " + through.length + "</h3><table>")
@@ -47,23 +47,23 @@ function reload() {
 
 
 	for (var i = 0; i < through.length; i++) {
-		$("#players").append("<tr><td><div class=\"player\">" + through[i] + "</td><td><button class=\"demote\" id=\"" + i + "\">Demote</button><button class=\"throughCross\" id=\"" + i + "\">X</button></div></td></tr>");
+		$("#players").append("<tr><td><div class=\"player\">" + through[i] + "</td><td><button class=\"demote btn btn-default\" id=\"" + i + "\">Demote</button><button class=\"throughCross btn btn-default\" id=\"" + i + "\">X</button></div></td></tr>");
 	}
 
 	$("#players").append("</table>");
 
-	$("#player").fadeOut();
-
-	if (!winner) {
-		$("#player").empty();
-		$("#player").append(player);
-	} else {
-		$("#player").empty();
-		$("#player").append("The winner is: " + winner);
-	}
-	if (drawCount > 0) {
-		$("#player").fadeIn();
-	}
+	$("#player").fadeOut(400, "swing", function () {
+		if (!winner) {
+			$("#player").empty();
+			$("#player").append(player);
+		} else {
+			$("#player").empty();
+			$("#player").append("The winner is: " + winner);
+		}
+		if (drawCount > 0) {
+			$("#player").fadeIn();
+		}
+	});
 
 	$(".throughCross").click(function (event) {
 		through.splice(event.target.id, 1);
@@ -93,14 +93,18 @@ function reload() {
 //Add a player to the game
 function addPlayer() {
 	var p = $("#add").val();
-	//add the player to the array
-	for (var i = 0; i < $("#noLives").val(); i++) {
-			current.push(p);
+	if (p) {
+		//add the player to the array
+		for (var i = 0; i < $("#noLives").val(); i++) {
+				current.push(p);
+		}
+		//clear the text field
+		$("#add").val("");
+		//realod the list of players
+		reload();
+	} else {
+		alert("The player field is required");
 	}
-	//clear the text field
-	$("#add").val("");
-	//realod the list of players
-	reload();
 }
 
 //Remove a life from the current array
