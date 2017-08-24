@@ -2,16 +2,25 @@ div {
 	padding: 1rem;
 }
 
-button {
-	margin-left: 0.5rem;
+button, input[type=button] {
+	margin: 0.5rem;
+	cursor: pointer;
+}
+
+input[type=text], input[type=number] {
+	max-width: 40em;
 }
 
 .curDraw {
-	padding: 0rem;
+	padding: 1rem;
 }
 
 #player {
 	font-weight: bold;
+}
+
+#rulesTitle {
+	cursor: pointer;
 }
 
 .player {
@@ -21,4 +30,8 @@ button {
 body {
 	font-family: sans-serif;
 	width: 100%;
+}
+
+h1, h2 {
+	font-weight: bold;
 }
